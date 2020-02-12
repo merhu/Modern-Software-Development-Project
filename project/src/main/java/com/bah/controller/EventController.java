@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bah.msd.Event;
-import com.bah.msd.EventRepo;
+import com.bah.domain.Event;
+import com.bah.repository.EventRepo;
 
 @RestController
 @RequestMapping("/convention/events") //http://localhost:8080/project/convention/events

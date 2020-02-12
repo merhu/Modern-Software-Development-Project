@@ -1,4 +1,4 @@
-package com.bah.msd;
+package com.bah.domain;
 
 import org.springframework.stereotype.Component;
 

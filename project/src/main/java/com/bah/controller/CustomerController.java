@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bah.msd.Customer;
-import com.bah.msd.CustomerRepo;
+import com.bah.domain.Customer;
+import com.bah.repository.CustomerRepo;
 
 @RestController
 @RequestMapping("/api/customers") //http://localhost:8080/api/customers

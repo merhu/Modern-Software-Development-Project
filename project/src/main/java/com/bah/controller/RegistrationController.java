@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bah.msd.Registration;
-import com.bah.msd.RegistrationRepo;
+import com.bah.domain.Registration;
+import com.bah.repository.RegistrationRepo;
 
 		@RestController
 		@RequestMapping("/convention/registration") //http://localhost:8080/project/convention/customers
