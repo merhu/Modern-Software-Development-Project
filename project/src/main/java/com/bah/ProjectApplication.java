@@ -1,4 +1,4 @@
-package com.bah.config;
+package com.bah;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

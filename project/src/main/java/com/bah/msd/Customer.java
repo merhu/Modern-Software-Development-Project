@@ -1,24 +1,23 @@
 package com.bah.msd;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Component
+@Entity
+@Table(name="CUSTOMERS")
 public class Customer {
 	
-	private String name, email;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	public Customer() {
-		// TODO Auto-generated constructor stub
-		
-	}
-	public Customer(int id, String name, String email) {
-		// TODO Auto-generated constructor stub
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-	}
+	@Column(name="CUSTOMER_NAME")
+	private String name;
+	private String email;
 
 	public String getName() {
 		return name;
@@ -32,10 +31,10 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getId() {
+	public int getID() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setID(int id) {
 		this.id = id;
 	}
 }

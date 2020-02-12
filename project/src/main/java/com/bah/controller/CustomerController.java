@@ -1,42 +1,62 @@
 package com.bah.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.bah.msd.Customer;
 import com.bah.msd.CustomerRepo;
 
 @RestController
-@RequestMapping("/api/customers") //http://localhost:8080/project/convention/customers
+@RequestMapping("/api/customers") //http://localhost:8080/api/customers
 public class CustomerController {
 	
-	static final String JSON ="application/json";
 	@Autowired
-	private CustomerRepo customerRepo;
+	CustomerRepo customerRepo;
 
-	public CustomerController() {
-		// TODO Auto-generated constructor stub
-	}
-	
 	// get customerRepo object
 	@GetMapping
-	@ResponseBody
-	public List<Customer> getCustomer (HttpServletResponse response) {
-		response.setStatus(HttpServletResponse.SC_OK);
-		return this.customerRepo.getCustomers();
+	public Iterable<Customer> getAll() {
+		return customerRepo.findAll();
 	}
 	
-	/*
+	// get customer by ID
+	@GetMapping("/{customerID}")
+	public Optional<Customer> getCustomerByID(@PathVariable("customerID")long id) {
+		return customerRepo.findById(id);
+	}
+	
 	// create customer
-	@PostMapping(path = "/customer", consumes = JSON, produces = JSON)
-	@ResponseBody
-	public CustomerRepo customerRepo (HttpServeletReponse) */
+	@PostMapping
+	public ResponseEntity<?> addCustomer (@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
+		if (newCustomer.getID() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		newCustomer = customerRepo.save(newCustomer);;
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+						.buildAndExpand(newCustomer.getID()).toUri();
+		ResponseEntity<?> response = ResponseEntity.created(location).build();
+		return response;
+	}
 
+	// update customer
+	@PutMapping("/{customerID}")
+	public ResponseEntity<?> putCustomer(@RequestBody Customer newCustomer, @PathVariable("customerId") long customerID) {
+		if (newCustomer.getID() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		newCustomer=customerRepo.save(newCustomer);
+		return ResponseEntity.ok().build();
+	}
 }
