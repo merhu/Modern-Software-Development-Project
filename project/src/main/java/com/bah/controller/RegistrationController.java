@@ -1,42 +1,73 @@
 package com.bah.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.bah.domain.Customer;
 import com.bah.domain.Registration;
 import com.bah.repository.RegistrationRepo;
 
-		@RestController
-		@RequestMapping("/convention/registration") //http://localhost:8080/project/convention/customers
-		public class RegistrationController {			
-			static final String JSON ="application/json";
-			@Autowired
-			private RegistrationRepo registrationRepo;
-
-				// TODO Auto-generated constructor stub
-		
-			// get customerRepo object
-			@GetMapping
-			@ResponseBody
-			public List<Registration> getRegistration (HttpServletResponse response) {
-				response.setStatus(HttpServletResponse.SC_OK);
-				return this.registrationRepo.getRegistration();
-			}
-			
-			/*
-			// create customer
-			@PostMapping(path = "/customer", consumes = JSON, produces = JSON)
-			@ResponseBody
-			public CustomerRepo customerRepo (HttpServeletReponse) */
-
-		}
+@RestController
+@RequestMapping("/api/registrations") //http://localhost:8080/api/registrations
+public class RegistrationController {
 	
+	@Autowired
+	RegistrationRepo registrationRepo;
+
+	// get registrationRepo object
+	@GetMapping
+	public Iterable<Registration> getAll() {
+		return registrationRepo.findAll();
+	}
+	
+	// get registration by ID
+	@GetMapping("/{registrationID}")
+	public Optional<Registration> getCustomerByID(@PathVariable("registrationID")long id) {
+		return registrationRepo.findById(id);
+	}
+	
+	// create registration
+	@PostMapping
+	public ResponseEntity<?> addCustomer (@RequestBody Registration newRegistration, UriComponentsBuilder uri) {
+		if (newRegistration.getID() != 0 || newRegistration.getName() == null || newRegistration.getEmail() == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		newRegistration = registrationRepo.save(newRegistration);;
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+						.buildAndExpand(newRegistration.getID()).toUri();
+		ResponseEntity<?> response = ResponseEntity.created(location).build();
+		return response;
+	}
+
+	// update customer
+	@PutMapping("/{registrationID}")
+	public ResponseEntity<?> putRegistration(@RequestBody Registration newRegistration, @PathVariable("registrationID") long registrationID) {
+		if (newRegistration.getID() != registrationID || newRegistration.getName() == null || newRegistration.getEmail() == null) {
+			return ResponseEntity.badRequest().build();
+		}
+		newRegistration=registrationRepo.save(newRegistration);
+		return ResponseEntity.ok().build();
+	}
+	
+	// delete customer
+	@DeleteMapping("/{registrationID}")
+	public void deleteRegistration(@PathVariable("registrationID") long id) {
+		registrationRepo.deleteById(id);
+	}
+}
+
 
 

@@ -1,24 +1,23 @@
 package com.bah.domain;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Component
+@Entity
+@Table(name="REGISTRATIONS")
 public class Registration {
 
-	private String date;
-	private int id;
-	private String notes;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
 	
-	public Registration() {
-		// TODO Auto-generated constructor stub
-		
-	}
-	public Registration(int id, String date, String notes) {
-		super();
-		this.date = date;
-		this.id = id;
-		this.notes = notes;
-	}
+	@Column(name="REGISTRATION_DATE")
+	private String date;
+	private String notes;
 
 	public String getDate() {
 		return date;
@@ -28,7 +27,7 @@ public class Registration {
 		this.date = date;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
