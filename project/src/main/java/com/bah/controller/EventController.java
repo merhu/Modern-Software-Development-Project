@@ -29,7 +29,7 @@ public class EventController {
 	@Autowired
 	EventRepo eventRepo;
 	
-	// get event object
+	// get event object from event controller 
 	@GetMapping
 	public Iterable<Event> getAll(){
 		return eventRepo.findAll();
