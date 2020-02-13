@@ -1,22 +1,33 @@
 package com.bah.domain;
 
-import org.springframework.stereotype.Component;
 
-@Component
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="EVENTS")
 public class Event {
 	
-	private String code, title, description;
-	
-	public Event() {
-		// TODO Auto-generated constructor stub
-		
+	 @Id
+	 @GeneratedValue(strategy=GenerationType.IDENTITY)
+	 private long id;
+	 @Column(name="EVENT_CODE")
+	 private String code;
+	 
+	 private String title;
+	 private String description;
+	 
+	 
+	public long getId() {
+		return id;
 	}
-	public Event(String code, String title, String description) {
-		// TODO Auto-generated constructor stub
-		super();
-		this.code = code;
-		this.title = title;
-		this.description = description;
+	public void setId(long id) {
+		this.id = id;
 	}
 	public String getCode() {
 		return code;
@@ -31,11 +42,12 @@ public class Event {
 		this.title = title;
 	}
 	public String getDescription() {
-		
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+
 
 }
