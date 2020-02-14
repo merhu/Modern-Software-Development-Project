@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bah.domain.Customer;
 import com.bah.domain.Registration;
 import com.bah.repository.RegistrationRepo;
 
@@ -35,33 +34,31 @@ public class RegistrationController {
 	
 	// get registration by ID
 	@GetMapping("/{registrationID}")
-	public Optional<Registration> getCustomerByID(@PathVariable("registrationID")long id) {
+	public Optional<Registration> getRegistrationByID(@PathVariable("registrationID")long id) {
 		return registrationRepo.findById(id);
 	}
 	
 	// create registration
 	@PostMapping
-	public ResponseEntity<?> addCustomer (@RequestBody Registration newRegistration, UriComponentsBuilder uri) {
-		if (newRegistration.getID() != 0 || newRegistration.getName() == null || newRegistration.getEmail() == null) {
+	public ResponseEntity<?> addRegistration(@RequestBody Registration newRegistration, UriComponentsBuilder uri) {
+		if (newRegistration.getId() != 0 || newRegistration.getNotes() == null || newRegistration.getDate() == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		newRegistration = registrationRepo.save(newRegistration);;
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-						.buildAndExpand(newRegistration.getID()).toUri();
+						.buildAndExpand(newRegistration.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
 		return response;
 	}
-
 	// update customer
 	@PutMapping("/{registrationID}")
 	public ResponseEntity<?> putRegistration(@RequestBody Registration newRegistration, @PathVariable("registrationID") long registrationID) {
-		if (newRegistration.getID() != registrationID || newRegistration.getName() == null || newRegistration.getEmail() == null) {
+		if (newRegistration.getId() != registrationID || newRegistration.getNotes() == null || newRegistration.getDate() == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		newRegistration=registrationRepo.save(newRegistration);
 		return ResponseEntity.ok().build();
 	}
-	
 	// delete customer
 	@DeleteMapping("/{registrationID}")
 	public void deleteRegistration(@PathVariable("registrationID") long id) {

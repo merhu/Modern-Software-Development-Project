@@ -19,7 +19,9 @@ public class Event {
 	 @Column(name="EVENT_CODE")
 	 private String code;
 	 
+	 @Column(name="TITLE")
 	 private String title;
+	 @Column(name="DESCRIPTION")
 	 private String description;
 	 
 	 
