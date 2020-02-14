@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.bah.domain.Event;
 import com.bah.domain.Registration;
 import com.bah.repository.RegistrationRepo;
 

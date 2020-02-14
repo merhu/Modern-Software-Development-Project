@@ -35,18 +35,6 @@ public class Registration {
 	@JsonProperty("event_Id")
 	private long event_Id;
 	
-	public Registration() {
-	
-	}
-	
-	public Registration(long id, Date date, String notes, long customer_id, long event_Id) {
-		super();
-		this.id = id;
-		this.date = date;
-		this.notes = notes;
-		this.customer_id = customer_id;
-		this.event_Id = event_Id;
-	}
 	public long getId() {
 		return id;
 	}
