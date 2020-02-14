@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.bah.domain.Event;
 import com.bah.domain.Registration;
 import com.bah.repository.RegistrationRepo;
 
 @RestController
 @RequestMapping("/api/registrations") //http://localhost:8080/api/registrations
 public class RegistrationController {
-	
+
 	@Autowired
 	RegistrationRepo registrationRepo;
 
@@ -31,25 +32,28 @@ public class RegistrationController {
 	public Iterable<Registration> getAll() {
 		return registrationRepo.findAll();
 	}
-	
+
 	// get registration by ID
 	@GetMapping("/{registrationID}")
 	public Optional<Registration> getRegistrationByID(@PathVariable("registrationID")long id) {
 		return registrationRepo.findById(id);
 	}
-	
+
 	// create registration
 	@PostMapping
 	public ResponseEntity<?> addRegistration(@RequestBody Registration newRegistration, UriComponentsBuilder uri) {
-		if (newRegistration.getId() != 0 || newRegistration.getNotes() == null || newRegistration.getDate() == null) {
+
+		if (newRegistration.getNotes() == null
+				|| newRegistration.getDate() ==null) {
 			return ResponseEntity.badRequest().build();
 		}
-		newRegistration = registrationRepo.save(newRegistration);;
+		newRegistration = registrationRepo.save(newRegistration);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-						.buildAndExpand(newRegistration.getId()).toUri();
+				.buildAndExpand(newRegistration.getId()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
 		return response;
 	}
+
 	// update customer
 	@PutMapping("/{registrationID}")
 	public ResponseEntity<?> putRegistration(@RequestBody Registration newRegistration, @PathVariable("registrationID") long registrationID) {

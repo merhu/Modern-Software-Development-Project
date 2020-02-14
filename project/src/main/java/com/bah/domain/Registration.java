@@ -1,5 +1,7 @@
 package com.bah.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,13 +20,15 @@ public class Registration {
 	private long id;
 	
 	@Column(name="REGISTRATION_DATE")
-	private String date;
+	@JsonProperty("registration_date")
+
+	private Date date;
 	
-	@Column(name="NOTES")
+//	@Column(name="NOTES")
 	private String notes;
 
 	@Column(name="CUSTOMER_ID")
-	@JsonProperty("customer_id")
+	@JsonProperty("customer_Id")
 	private long customer_id;
 	
 	@Column(name="EVENT_ID")
@@ -32,9 +36,10 @@ public class Registration {
 	private long event_Id;
 	
 	public Registration() {
-		// TODO Auto-generated constructor stub
+	
 	}
-	public Registration(long id, String date, String notes, long customer_id, long event_Id) {
+	
+	public Registration(long id, Date date, String notes, long customer_id, long event_Id) {
 		super();
 		this.id = id;
 		this.date = date;
@@ -48,10 +53,10 @@ public class Registration {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public String getNotes() {
