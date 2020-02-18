@@ -33,9 +33,17 @@ public class CustomerController {
 	}
 	
 	// get customer by ID
+	/*
 	@GetMapping("/{customerID}")
 	public Optional<Customer> getCustomerByID(@PathVariable("customerID")long id) {
 		return customerRepo.findById(id);
+	}*/
+
+	// get customer by name
+	
+	@GetMapping("/{customerName}")
+	public Customer getCustomerByName(@PathVariable("customerName")String name) {
+		return customerRepo.findByName(name);
 	}
 	
 	// create customer
