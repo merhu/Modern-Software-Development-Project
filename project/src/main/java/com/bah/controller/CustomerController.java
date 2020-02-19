@@ -1,7 +1,6 @@
 package com.bah.controller;
 
 import java.net.URI;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,10 +48,10 @@ public class CustomerController {
 	// create customer
 	@PostMapping
 	public ResponseEntity<?> addCustomer (@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
-		if (newCustomer.getID() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
+		if (newCustomer.getID() != 0 || newCustomer.getName() == null || newCustomer.getPassword() == null || newCustomer.getEmail() == null) {
 			return ResponseEntity.badRequest().build();
 		}
-		newCustomer = customerRepo.save(newCustomer);;
+		newCustomer = customerRepo.save(newCustomer);
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 						.buildAndExpand(newCustomer.getID()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();

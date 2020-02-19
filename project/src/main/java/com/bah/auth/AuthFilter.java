@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.webage.util.JWTHelper;
 
-@Component
+//@Component
 public class AuthFilter implements Filter {
 	
 	private String api_scope = "test";
