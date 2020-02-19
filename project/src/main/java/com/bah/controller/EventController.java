@@ -22,7 +22,7 @@ import com.bah.domain.Event;
 import com.bah.repository.EventRepo;
 
 @RestController
-@RequestMapping("/api/events") //http://localhost:8080/project/api/events
+@RequestMapping("/events") //http://localhost:8080/project/api/events
 public class EventController {
 	
 	

@@ -20,7 +20,7 @@ import com.bah.domain.Registration;
 import com.bah.repository.RegistrationRepo;
 
 @RestController
-@RequestMapping("/api/registrations") //http://localhost:8080/api/registrations
+@RequestMapping("/registrations") //http://localhost:8080/api/registrations
 public class RegistrationController {
 
 	@Autowired

@@ -20,7 +20,7 @@ import com.bah.domain.Customer;
 import com.bah.repository.CustomerRepo;
 
 @RestController
-@RequestMapping("/api/customers") //http://localhost:8080/api/customers
+@RequestMapping("/customers") //http://localhost:8080/api/customers
 public class CustomerController {
 	
 	@Autowired

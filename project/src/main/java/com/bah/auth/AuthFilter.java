@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-//@Component
+import com.webage.util.JWTHelper;
+
+@Component
 public class AuthFilter implements Filter {
-	JWTUtil jwtUtil = new JWTHelper();
 	
-	private String api_scope = "com.api.customer.r";
+	private String api_scope = "test";
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -34,8 +37,8 @@ public class AuthFilter implements Filter {
 			String authheader = req.getHeader("authorization");
 			if (authheader != null && authheader.length() > 7 && authheader.startsWith("Bearer")) {
 				String jwt_token = authheader.substring(7, authheader.length());
-				if (jwtUtil.verifyToken(jwt_token)) {
-					String request_scopes = jwtUtil.getScopes(jwt_token);
+				if (JWTHelper.verifyToken(jwt_token)) {
+					String request_scopes = JWTHelper.getScopes(jwt_token);
 					if (request_scopes.contains(api_scope)) {
 						// continue on to api
 						chain.doFilter(request, response);
@@ -44,9 +47,7 @@ public class AuthFilter implements Filter {
 				}
 			}
 		}
-
 		// reject request and return error instead of data
 		res.sendError(HttpServletResponse.SC_FORBIDDEN, "failed authentication");
 	}
-
 }
