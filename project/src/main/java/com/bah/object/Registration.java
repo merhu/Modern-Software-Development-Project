@@ -9,61 +9,64 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 @Entity
 @Table(name="REGISTRATIONS")
 public class Registration {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
-	
-	@Column(name="REGISTRATION_DATE")
-	@JsonProperty("registration_date")
-
-	private Date date;
-	
-//	@Column(name="NOTES")
-	private String notes;
-
-	@Column(name="CUSTOMER_ID")
-	@JsonProperty("customer_Id")
-	private long customer_id;
+	long id;
 	
 	@Column(name="EVENT_ID")
-	@JsonProperty("event_Id")
-	private long event_Id;
+	String event_id;
 	
+	@Column(name="CUSTOMER_ID")
+	String customer_id;
+	
+	Date registration_date;
+	
+	String notes;
+
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
-	public Date getDate() {
-		return date;
+
+	public String getEvent_id() {
+		return event_id;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+
+	public void setEvent_id(String event_id) {
+		this.event_id = event_id;
 	}
+
+	public String getCustomer_id() {
+		return customer_id;
+	}
+
+	public void setCustomer_id(String customer_id) {
+		this.customer_id = customer_id;
+	}
+
+	public Date getRegistration_date() {
+		return registration_date;
+	}
+
+	public void setRegistration_date(Date registration_date) {
+		this.registration_date = registration_date;
+	}
+
 	public String getNotes() {
 		return notes;
 	}
+
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	public long getCustomer_id() {
-		return customer_id;
-	}
-	public void setCustomer_id(long customer_id) {
-		this.customer_id = customer_id;
-	}
-	public long getEvent_Id() {
-		return event_Id;
-	}
-	public void setEvent_Id(long event_Id) {
-		this.event_Id = event_Id;
-	}
-
+	
+	
+	
 }
