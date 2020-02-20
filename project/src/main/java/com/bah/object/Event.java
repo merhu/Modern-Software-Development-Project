@@ -1,4 +1,4 @@
-package com.bah.domain;
+package com.bah.object;
 
 
 import javax.persistence.Column;

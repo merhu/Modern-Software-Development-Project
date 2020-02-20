@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.webage.util.JWTHelper;
+import com.bah.util.JWTHelper;
 
 //@Component
 public class AuthFilter implements Filter {

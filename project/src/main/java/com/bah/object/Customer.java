@@ -1,4 +1,4 @@
-package com.bah.domain;
+package com.bah.object;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +19,18 @@ public class Customer {
 	private String name;
 	private String password;
 	private String email;
+	
+	public Customer() {
+		super();
+	}
 
+	public Customer(String name, String password, String email) {
+		super();
+		this.name = name;
+		this.password = password;
+		this.email = email;
+	}
+	
 	public String getName() {
 		return name;
 	}
