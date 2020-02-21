@@ -42,9 +42,7 @@ public class AuthFilter implements Filter{
 		// auth checking will not apply to these cases
 		// token endpoint
 		// user register endpoint
-		if (!uri.startsWith("/api/events") 
-				&& !uri.startsWith("/api/registrations")
-				&& !uri.equals("/api/customers")) {
+		if (!uri.contains("/events") && !uri.contains("/registrations")) {
 			chain.doFilter(request, response);
 			return;			
 		}else{
