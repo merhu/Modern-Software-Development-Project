@@ -18,76 +18,70 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.bah.object.Customer;
 import com.bah.repository.CustomerRepo;
 
+import io.opentracing.Span;
+import io.opentracing.Tracer;
+
 @RestController
 @RequestMapping("/customers") //http://localhost:8080/api/customers
 public class CustomerController {
 
 	@Autowired
 	CustomerRepo customerRepo;
+	
+	@Autowired
+	private Tracer tracer;
 
 	// get customerRepo object
 	@GetMapping
 	public Iterable<Customer> getAll() {
+		Span span = tracer.buildSpan("get customers").start();
+		span.setTag("http.status_code",201);
+		span.finish();
 		return customerRepo.findAll();
 	}
 
-	// get customer by ID
-	/*
-	@GetMapping("/{customerID}")
-	public Optional<Customer> getCustomerByID(@PathVariable("customerID")long id) {
-		return customerRepo.findById(id);
-	}*/
-
-	// get customer by name
-
 	@GetMapping("/{customerName}")
 	public Customer getCustomerByName(@PathVariable("customerName")String name) {
+		Span span = tracer.buildSpan("get customer by name").start();
+		span.setTag("http.status_code",201);
+		span.finish();
 		return customerRepo.findByName(name);
 	}
 
 	@PostMapping
 	public ResponseEntity<?> addCustomer(@RequestBody Customer newCustomer, UriComponentsBuilder uri) {
+		Span span = tracer.buildSpan("add customer").start();
 		if (newCustomer.getID() != 0 || newCustomer.getName() == null || newCustomer.getEmail() == null) {
 			// Reject we'll assign the customer id
 			return ResponseEntity.badRequest().build();
 		}
 		newCustomer = customerRepo.save(newCustomer);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(newCustomer.getID()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newCustomer.getID()).toUri();
 		ResponseEntity<?> response = ResponseEntity.created(location).build();
+		span.setTag("http.status_code",201);
+		span.finish();
 		return response;
 	}
-	/*
-	// add customer
-	@PostMapping("/register")
-	public ResponseEntity<?> registerCustomer (@RequestBody String newCustomer) {
-		String delimiters = ",|\"|:";
-		String[] customer = newCustomer.split(delimiters);
-		/*int x = 0;
-		for (String str : customer) {
-			System.out.println("Index " + x++ + " " + str);
-		}
-		String name = customer[4];
-		String pass = customer[10];
-		String email = customer[16];
-		Customer newUser = new Customer(name, pass, email);
-		newUser = customerRepo.save(newUser);
-		return ResponseEntity.ok().build();
-	}
-*/
+	
 	// update customer
 	@PutMapping("/{customerID}")
 	public ResponseEntity<?> putCustomer(@RequestBody Customer newCustomer, @PathVariable("customerID") long customerID) {
+		Span span = tracer.buildSpan("update customer").start();
 		if (newCustomer.getID() != customerID || newCustomer.getName() == null || newCustomer.getPassword() == null || newCustomer.getEmail() == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		newCustomer=customerRepo.save(newCustomer);
+		span.setTag("http.status_code",201);
+		span.finish();
 		return ResponseEntity.ok().build();
 	}
 
 	// delete customer
 	@DeleteMapping("/{customerID}")
 	public void deleteCustomer(@PathVariable("customerID") long id) {
+		Span span = tracer.buildSpan("delete customer").start();
+		span.setTag("http.status_code",201);
+		span.finish();
 		customerRepo.deleteById(id);
 	}
 }
